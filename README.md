@@ -4,7 +4,7 @@ This is a ROS-generic version of  [kinfu_remake](https://github.com/Nerei/kinfu_
 
 This also means the project will probably no longer work in Windows.
 
-The project has been tested with two ROS cameras so far. It seems to work with a [structure sensor](http://structure.io/developers), for instance. It should work with any sensor that provides a dense depth map with unsigned 16 bit millimeter depth images.
+The project has been tested with two ROS cameras so far. It seems to work with a [structure sensor](http://structure.io/developers), for instance. It should work with any sensor that provides a dense depth map with unsigned 16 bit millimeter depth images (an image of the structure io sensor being used to run `kinfu` is shown below). With `depth_image_proc` it might even be possible for it to work with stereo cameras.
 
 ![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/fusion_structureio.png)
 
