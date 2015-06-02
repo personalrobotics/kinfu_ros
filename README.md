@@ -1,3 +1,9 @@
+KinFu ros
+=========
+This is a ROS-generic version of  [kinfu_remake](https://github.com/Nerei/kinfu_remake). It aims to make the package usable without any reference to `OpenNI`, with no assumptions about the kind of depth sensor used. It also aims to make data from the `kinfu` pipeline available via ROS service calls and messages.
+
+This also means the project will probably no longer work in Windows.
+
 KinFu remake
 ============
 
@@ -19,5 +25,5 @@ Implicit dependency (needed by opencv_viz):
 * VTK 5.8.0 or higher. (apt-get install on linux, for windows please download and compile from www.vtk.org)
 
 Screenshot:
-* https://raw.githubusercontent.com/Nerei/kinfu_remake/master/perf-39.5fps-Tesla-C2070.png
+![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/perf-39.5fps-Tesla-C2070.png)
 
