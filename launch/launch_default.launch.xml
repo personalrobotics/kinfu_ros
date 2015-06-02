@@ -1,0 +1,27 @@
+<launch>
+    <node name="kinfu" pkg="kinfu_ros" type="kinfu_node" output="screen">
+        <rosparam>
+            bilateral_kernel_size: 7
+            bilateral_sigma_depth: 0.04
+            bilateral_sigma_spatial: 4.5
+            gradient_delta_factor: 0.5
+            icp_angle_thresh: 0.523599
+            icp_dist_thresh: 0.1
+            icp_truncate_depth_dist: 0
+            raycast_step_factor: 0.05
+            tsdf_max_weight: 64
+            tsdf_min_camera_movement: 0
+            tsdf_trunc_dist: 0.04
+            volume_dims_x: 512
+            volume_dims_y: 512
+            volume_dims_z: 512
+            volume_size_x: 3
+            volume_size_y: 3
+            volume_size_z: 3
+            volume_pos_x: -1.5
+            volume_pos_y: -1.5
+            volume_pos_z: 0.5
+            icp_iter_num : [10, 5, 4, 0]
+        </rosparam>
+    </node>
+</launch>
