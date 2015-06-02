@@ -6,6 +6,7 @@ This also means the project will probably no longer work in Windows.
 
 The project has been tested with two ROS cameras so far. It seems to work with a [structure sensor](http://structure.io/developers), for instance. It should work with any sensor that provides a dense depth map with unsigned 16 bit millimeter depth images.
 
+![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/fusion_structureio.png)
 
 KinFu remake
 ============
