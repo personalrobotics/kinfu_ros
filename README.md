@@ -22,11 +22,11 @@ Key changes/features:
 Dependencies:
 * Fermi or Kepler or newer
 * CUDA 5.0 or higher
-* OpenCV 2.4.9 with new Viz module (only opencv_core, opencv_highgui, opencv_imgproc, opencv_viz modules required). Make sure that WITH_VTK flag is enabled in CMake during OpenCV configuration.
-* OpenNI v1.5.4 (for Windows can download and install from http://pointclouds.org/downloads/windows.html)
+* OpenCV 2.4.9 ~~with new Viz module~~ (only opencv_core, ~~opencv_highgui~~, opencv_imgproc, ~~opencv_viz~~ modules required). ~~Make sure that WITH_VTK flag is enabled in CMake during OpenCV configuration.~~
+* ~~OpenNI v1.5.4 (for Windows can download and install from http://pointclouds.org/downloads/windows.html)~~
 
-Implicit dependency (needed by opencv_viz):
-* VTK 5.8.0 or higher. (apt-get install on linux, for windows please download and compile from www.vtk.org)
+~~Implicit dependency (needed by opencv_viz):~~
+~~* VTK 5.8.0 or higher. (apt-get install on linux, for windows please download and compile from www.vtk.org)~~
 
 Screenshot:
 ![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/perf-39.5fps-Tesla-C2070.png)
