@@ -5,10 +5,10 @@
 
 namespace kfusion
 {
-        namespace cuda
-        {
-                void error(const char *error_string, const char *file, const int line, const char *func);
-        }
+    namespace cuda
+    {
+        void error(const char *error_string, const char *file, const int line, const char *func);
+    }
 }
 
 #if defined(__GNUC__)
@@ -19,24 +19,24 @@ namespace kfusion
 
 namespace kfusion
 {
-        namespace cuda
+    namespace cuda
+    {
+        static inline void ___cudaSafeCall(cudaError_t err, const char *file, const int line, const char *func = "")
         {
-                static inline void ___cudaSafeCall(cudaError_t err, const char *file, const int line, const char *func = "")
-                {
-                        if (cudaSuccess != err)
-                                error(cudaGetErrorString(err), file, line, func);
-                }
-
-                static inline int divUp(int total, int grain)
-                {
-                        return (total + grain - 1) / grain;
-                }
+            if (cudaSuccess != err)
+                error(cudaGetErrorString(err), file, line, func);
         }
 
-        namespace device
+        static inline int divUp(int total, int grain)
         {
-                using kfusion::cuda::divUp;
+            return (total + grain - 1) / grain;
         }
+    }
+
+    namespace device
+    {
+        using kfusion::cuda::divUp;
+    }
 }
 
 #endif

@@ -8,26 +8,26 @@ kfusion::Intr::Intr()
 {
 }
 kfusion::Intr::Intr(float fx_, float fy_, float cx_, float cy_) :
-                fx(fx_), fy(fy_), cx(cx_), cy(cy_)
+        fx(fx_), fy(fy_), cx(cx_), cy(cy_)
 {
 }
 
 kfusion::Intr kfusion::Intr::operator()(int level_index) const
 {
-        int div = 1 << level_index;
-        return (Intr(fx / div, fy / div, cx / div, cy / div));
+    int div = 1 << level_index;
+    return (Intr(fx / div, fy / div, cx / div, cy / div));
 }
 
 std::ostream& operator <<(std::ostream& os, const kfusion::Intr& intr)
 {
-        return os << "([f = " << intr.fx << ", " << intr.fy << "] [cp = " << intr.cx << ", " << intr.cy << "])";
+    return os << "([f = " << intr.fx << ", " << intr.fy << "] [cp = " << intr.cx << ", " << intr.cy << "])";
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// TsdfVolume host implementation
 
 kfusion::device::TsdfVolume::TsdfVolume(elem_type* _data, int3 _dims, float3 _voxel_size, float _trunc_dist, int _max_weight) :
-                data(_data), dims(_dims), voxel_size(_voxel_size), trunc_dist(_trunc_dist), max_weight(_max_weight)
+        data(_data), dims(_dims), voxel_size(_voxel_size), trunc_dist(_trunc_dist), max_weight(_max_weight)
 {
 }
 
@@ -47,7 +47,7 @@ kfusion::device::TsdfVolume::TsdfVolume(elem_type* _data, int3 _dims, float3 _vo
 /// Projector host implementation
 
 kfusion::device::Projector::Projector(float fx, float fy, float cx, float cy) :
-                f(make_float2(fx, fy)), c(make_float2(cx, cy))
+        f(make_float2(fx, fy)), c(make_float2(cx, cy))
 {
 }
 
@@ -63,7 +63,7 @@ kfusion::device::Projector::Projector(float fx, float fy, float cx, float cy) :
 /// Reprojector host implementation
 
 kfusion::device::Reprojector::Reprojector(float fx, float fy, float cx, float cy) :
-                finv(make_float2(1.f / fx, 1.f / fy)), c(make_float2(cx, cy))
+        finv(make_float2(1.f / fx, 1.f / fy)), c(make_float2(cx, cy))
 {
 }
 
