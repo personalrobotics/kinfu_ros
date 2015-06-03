@@ -33,6 +33,19 @@ struct KinFuNode
            raycastImgPublisher.publish(image.toImageMsg());
         }
 
+     template<typename T> void loadParam(T& value, const std::string& name)
+     {
+             T newValue = camera_->nodeHandle.param<T>(name, value);
+             value = newValue;
+     }
+
+     void loadParam(float& value, const std::string& name)
+     {
+              double curr = value;
+              curr = camera_->nodeHandle.param<double>(name, curr);
+              value = static_cast<float>(curr);
+              std::cout << name << ": " << value << std::endl;
+     }
 
     bool execute()
     {
@@ -54,6 +67,38 @@ struct KinFuNode
         params.cols = camera_->GetDepthWidth();
         params.rows = camera_->GetDepthHeight();
         params.intr = camera_->GetDepthIntrinsics();
+
+        loadParam(params.bilateral_kernel_size, "bilateral_kernel_size");
+        loadParam(params.bilateral_sigma_depth, "bilateral_sigma_depth");
+        loadParam(params.bilateral_sigma_spatial, "bilateral_sigma_spatial");
+        loadParam(params.gradient_delta_factor, "gradient_delta_factor");
+        loadParam(params.icp_angle_thres, "icp_angle_thresh");
+        loadParam(params.icp_dist_thres, "icp_dist_thresh");
+        loadParam(params.icp_iter_num, "icp_iter_num");
+        loadParam(params.icp_truncate_depth_dist, "icp_truncate_depth_dist");
+        loadParam(params.raycast_step_factor, "raycast_step_factor");
+        loadParam(params.tsdf_max_weight, "tsdf_max_weight");
+        loadParam(params.tsdf_min_camera_movement, "tsdf_min_camera_movement");
+        loadParam(params.tsdf_trunc_dist, "tsdf_trunc_dist");
+        loadParam(params.volume_dims.val[0], "volume_dims_x");
+        loadParam(params.volume_dims.val[1], "volume_dims_y");
+        loadParam(params.volume_dims.val[2], "volume_dims_z");
+        loadParam(params.volume_size.val[0], "volume_size_x");
+        loadParam(params.volume_size.val[1], "volume_size_y");
+        loadParam(params.volume_size.val[2], "volume_size_z");
+
+        float volPosX, volPosY, volPosZ;
+        volPosX = params.volume_pose.translation().val[0];
+        volPosY = params.volume_pose.translation().val[1];
+        volPosZ = params.volume_pose.translation().val[2];
+
+        loadParam(volPosX, "volume_pos_x");
+        loadParam(volPosY, "volume_pos_y");
+        loadParam(volPosZ, "volume_pos_z");
+
+        params.volume_pose.translate(-params.volume_pose.translation());
+        params.volume_pose.translate(cv::Affine3f::Vec3(volPosX, volPosY, volPosZ));
+
         kinfu_ = KinFu::Ptr( new KinFu(params) );
         KinFu& kinfu = *kinfu_;
 
@@ -131,6 +176,10 @@ int main (int argc, char* argv[])
     RosRGBDCamera camera(node);
     camera.SubscribeDepth("/camera/depth/image_raw");
     camera.SubscribeRGB("/camera/rgb/image_rect_color");
+    std::string fixedFrame = "/map";
+    std::string cameraFrame = "/camera_depth_optical_frame";
+    node.param<std::string>("fixed_Frame", fixedFrame, "/map");
+    node.param<std::string>("camera_frame", fixedFrame, "/camera_depth_optical_frame");
     KinFuNode app (&camera, "/map", "/camera_depth_optical_frame");
     app.execute ();
 

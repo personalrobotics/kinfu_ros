@@ -13,7 +13,7 @@ namespace kfusion
 {
         
         RosRGBDCamera::RosRGBDCamera(const ros::NodeHandle& handle) :
-                        transport(handle),  hasNewDepth(false), hasNewRGB(false), subscribedDepth(false), subscribedRGB(false)
+                        nodeHandle(handle), transport(handle),  hasNewDepth(false), hasNewRGB(false), subscribedDepth(false), subscribedRGB(false)
         {
 
         }
