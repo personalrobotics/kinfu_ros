@@ -8,12 +8,11 @@
 #include <ros/ros_rgbd_camera.hpp>
 #include <ros/console.h>
 
-
 namespace kfusion
 {
         
         RosRGBDCamera::RosRGBDCamera(const ros::NodeHandle& handle) :
-                        nodeHandle(handle), transport(handle),  hasNewDepth(false), hasNewRGB(false), subscribedDepth(false), subscribedRGB(false)
+                        nodeHandle(handle), transport(handle), hasNewDepth(false), hasNewRGB(false), subscribedDepth(false), subscribedRGB(false)
         {
 
         }
@@ -61,14 +60,14 @@ namespace kfusion
                 return hasAny;
         }
 
-        void   RosRGBDCamera::SubscribeDepth(const std::string& topic)
+        void RosRGBDCamera::SubscribeDepth(const std::string& topic)
         {
                 depthSubscriber = transport.subscribeCamera<RosRGBDCamera>(topic, 10, &RosRGBDCamera::DepthCallback, this);
                 hasNewDepth = false;
                 subscribedDepth = true;
         }
 
-        void   RosRGBDCamera::SubscribeRGB(const std::string& topic)
+        void RosRGBDCamera::SubscribeRGB(const std::string& topic)
         {
                 rgbSubscriber = transport.subscribeCamera<RosRGBDCamera>(topic, 10, &RosRGBDCamera::RGBCallback, this);
                 hasNewRGB = false;
@@ -82,7 +81,7 @@ namespace kfusion
                 hasNewDepth = true;
         }
 
-        void RosRGBDCamera::RGBCallback(const sensor_msgs::ImageConstPtr& image,  const sensor_msgs::CameraInfoConstPtr& cameraInfo)
+        void RosRGBDCamera::RGBCallback(const sensor_msgs::ImageConstPtr& image, const sensor_msgs::CameraInfoConstPtr& cameraInfo)
         {
                 lastRGBImage = image;
                 lastRGBInfo = cameraInfo;
