@@ -1,6 +1,18 @@
 <launch>
+    <!-- Remap the depth and color image topics to the ones output by the
+         sensor of your choice -->
+    <remap from="/camera/depth/image_raw" to="/camera/depth/image_raw"/>
+    <remap from="/camera/rgb/image_rect_color" to="/camera/rgb/image_rect_color"/>
+    
+    <!-- Launch kinfu as a standalone ROS node-->
     <node name="kinfu" pkg="kinfu_ros" type="kinfu_node" output="screen">
+        <!-- The rosparams can be saved to a .yaml file. They're inlined here
+             for convenience -->
         <rosparam>
+            # The node reports the transform between the fixed frame and
+            # a given camera frame.
+            fixed_frame: "/map"
+            camera_frame: "/camera_depth_optical_frame"
             # The bilateral kernel smooths the depth image and 
             # filters out noise around the edges
             bilateral_kernel_size: 7
