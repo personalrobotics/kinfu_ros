@@ -56,7 +56,6 @@ if(${CUDA_VERSION_STRING} VERSION_GREATER "4.1")
     endif()
 APPEND_TARGET_ARCH_FLAGS()
 message(STATUS "CUDA_BIN_ARCH ${CUDA_ARCH_BIN}")
-find_package(OpenNI REQUIRED)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -149,7 +148,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS} ${OPENNI_INCLUDE_DIR}
+  ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${CUDA_INCLUDE_DIRS}
 )
 
 set(HAVE_CUDA 1)
@@ -162,7 +161,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 ## Declare a cpp library
  cuda_add_library(kinfu_ros
-	src/capture.cpp
 	src/core.cpp
 	src/device_memory.cpp
 	src/imgproc.cpp
@@ -178,8 +176,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
  target_link_libraries(kinfu_ros
    ${catkin_LIBRARIES}
-   ${CUDA_LIBRARIES} ${CUDA_CUDA_LIBRARY} ${OpenCV_LIBS} 
-   ${OPENNI_LIBRARIES}
+   ${CUDA_LIBRARIES} ${CUDA_CUDA_LIBRARY} ${OpenCV_LIBS}
  )
 
 ## Declare a cpp executable
@@ -193,8 +190,7 @@ add_executable(kinfu_node src/kinfu_node.cpp)
  target_link_libraries(kinfu_node
    kinfu_ros
    ${catkin_LIBRARIES}
-   ${CUDA_LIBRARIES} ${CUDA_CUDA_LIBRARY} ${OpenCV_LIBS} 
-   ${OPENNI_LIBRARIES}
+   ${CUDA_LIBRARIES} ${CUDA_CUDA_LIBRARY} ${OpenCV_LIBS}
  )
 
 #############
