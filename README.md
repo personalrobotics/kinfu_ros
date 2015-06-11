@@ -8,6 +8,16 @@ The project has been tested with two ROS cameras so far. It seems to work with a
 
 ![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/fusion_structureio.png)
 
+#Running Standalone Kinfu Server#
+
+An example launch file is shown in `/launch/default.launch.xml`. To launch the `kinfu_ros` server simply use the command
+
+`roslaunch kinfu_ros <your_launch_file>`
+
+This will spin up a `kinfu_ros` server, that will continuously receive images and track the pose of the camera. Right now, `kinfu_ros` only publishes two things to ROS: a raycasted image from `kinfu`, and a pose through `tf`. The launch file allows you to select topics for the depth image and color image, and you can modify many other parameters through `rosparam`.
+
+You can also include the `kinfu_ros` server as a header file, and use it in any way you wish. Just include `<kinfu_ros/kinfu_server.h>` in your code. `src/kinfu_node.cpp` shows how to use the `kinfu_ros` server to receive and track depth images.
+
 KinFu remake
 ============
 
@@ -22,11 +32,11 @@ Key changes/features:
 Dependencies:
 * Fermi or Kepler or newer
 * CUDA 5.0 or higher
-* OpenCV 2.4.9 with new Viz module (only opencv_core, opencv_highgui, opencv_imgproc, opencv_viz modules required). Make sure that WITH_VTK flag is enabled in CMake during OpenCV configuration.
-* OpenNI v1.5.4 (for Windows can download and install from http://pointclouds.org/downloads/windows.html)
+* OpenCV 2.4.9 ~~with new Viz module~~ (only opencv_core, ~~opencv_highgui~~, opencv_imgproc, ~~opencv_viz~~ modules required). ~~Make sure that WITH_VTK flag is enabled in CMake during OpenCV configuration.~~
+* ~~OpenNI v1.5.4 (for Windows can download and install from http://pointclouds.org/downloads/windows.html)~~
 
-Implicit dependency (needed by opencv_viz):
-* VTK 5.8.0 or higher. (apt-get install on linux, for windows please download and compile from www.vtk.org)
+~~Implicit dependency (needed by opencv_viz):~~
+~~* VTK 5.8.0 or higher. (apt-get install on linux, for windows please download and compile from www.vtk.org)~~
 
 Screenshot:
 ![](https://raw.githubusercontent.com/personalrobotics/kinfu_ros/master/perf-39.5fps-Tesla-C2070.png)
