@@ -14,6 +14,7 @@ namespace kfusion
             should_exit_(false), camera_(camera), baseFrame_(fixedFrame), cameraFrame_(camFrame)
     {
         raycastImgPublisher_ = camera->nodeHandle.advertise<sensor_msgs::Image>("raycast_image", 10);
+        get_tsdf_server_ = camera->nodeHandle.advertiseService("get_tsdf", &KinFuServer::GetTSDF,  this);
     }
 
     void KinFuServer::PublishRaycastImage()
@@ -156,6 +157,35 @@ namespace kfusion
         tfRot.getRotation(tfQuat);
         currTf.setRotation(tfQuat);
         tfBroadcaster_.sendTransform(currTf);
+        return true;
+    }
+
+    bool KinFuServer::GetTSDF(kinfu_ros::GetTSDFRequest& req, kinfu_ros::GetTSDFResponse& res)
+    {
+        res.tsdf.header.stamp = ros::Time::now();
+        res.tsdf.header.frame_id = baseFrame_;
+        const kfusion::cuda::TsdfVolume& volume = kinfu_->tsdf();
+        res.tsdf.max_weight = volume.getMaxWeight();
+        res.tsdf. num_voxels_x = volume.getDims().val[0];
+        res.tsdf. num_voxels_y = volume.getDims().val[1];
+        res.tsdf. num_voxels_z = volume.getDims().val[2];
+        res.tsdf.size_x = volume. getSize().val[0];
+        res.tsdf.size_y = volume. getSize().val[1];
+        res.tsdf.size_z = volume. getSize().val[2];
+        res.tsdf.truncation_dist = volume.getTruncDist();
+        res.tsdf.pose.position.x = volume.getPose().translation().val[0];
+        res.tsdf.pose.position.y = volume.getPose().translation().val[1];
+        res.tsdf.pose.position.z = volume.getPose().translation().val[2];
+        cv::Affine3f::Mat3 rot = volume.getPose().rotation();
+        tf::Matrix3x3 tfRot(rot.val[0], rot.val[1], rot.val[2], rot.val[3], rot.val[4], rot.val[5], rot.val[6], rot.val[7], rot.val[8]);
+        tf::Quaternion tfQuat;
+        tfRot.getRotation(tfQuat);
+        res.tsdf.pose.orientation.x = tfQuat.x();
+        res.tsdf.pose.orientation.y = tfQuat.y();
+        res.tsdf.pose.orientation.z = tfQuat.z();
+        res.tsdf.pose.orientation.w = tfQuat.w();
+        res.tsdf.data.resize(res.tsdf.num_voxels_x * res.tsdf.num_voxels_y * res.tsdf.num_voxels_z, 0);
+        volume.data().download(res.tsdf.data.data());
         return true;
     }
 

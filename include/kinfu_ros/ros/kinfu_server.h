@@ -15,7 +15,10 @@
 #include <sensor_msgs/Image.h>
 #include <tf/tf.h>
 #include <tf/transform_broadcaster.h>
-
+#include <kinfu_ros/GetTSDF.h>
+#include <kinfu_ros/TSDF.h>
+#include <kinfu_ros/GetTSDFRequest.h>
+#include <kinfu_ros/GetTSDFResponse.h>
 namespace kfusion
 {
     
@@ -76,6 +79,9 @@ namespace kfusion
              inline const std::string& GetBaseFrame() { return baseFrame_; }
              inline const std::string& GetCameraFrame() { return cameraFrame_; }
 
+             // Service calls
+             bool GetTSDF(kinfu_ros::GetTSDFRequest& req, kinfu_ros::GetTSDFResponse& res);
+
         protected:
             bool should_exit_;
             KinFu::Ptr kinfu_;
@@ -89,6 +95,7 @@ namespace kfusion
             tf::TransformBroadcaster tfBroadcaster_;
             cv::Mat lastDepth_;
             cv::Mat lastColor_;
+            ros::ServiceServer get_tsdf_server_;
     };
 
 } /* namespace kfusion */
